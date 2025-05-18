@@ -5,7 +5,7 @@
 //  Created by Luben Ivanchev on 2025/05/11.
 //
 
-struct ApexDino {
+struct ApexDino: Decodable {
     let id: Int
     let name: String
     let type: String
@@ -15,7 +15,7 @@ struct ApexDino {
     let movieScenes: [MovieScene]
     let link: String
     
-    struct MovieScene {
+    struct MovieScene: Decodable {
         let id: Int
         let movie: String
         let screanDescription: String
