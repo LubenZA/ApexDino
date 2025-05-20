@@ -48,4 +48,14 @@ class Dinosaurs {
             }
         }
     }
+    
+    func filter(by type: ADType) {
+        if type == .all {
+            
+        } else {
+            apexDinos = apexDinos.filter { dino in
+                dino.type == type
+            }
+        }
+    }
 }

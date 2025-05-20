@@ -12,8 +12,10 @@ struct ContentView: View {
     
     @State var searchText = ""
     @State var alphabetical = false
+    @State var currentSelection = ADType.all
     
     var filteredDinos: [ApexDino] {
+        dinos.filter(by: currentSelection)
         dinos.sort(by: alphabetical)
         
         return dinos.search(for: searchText)
@@ -63,6 +65,17 @@ struct ContentView: View {
                     } label: {
                         Image(systemName: alphabetical ? "film" : "textformat")
                             .symbolEffect(.bounce, value: alphabetical)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Picker("Filter", selection: $currentSelection) {
+                            ForEach(ADType.allCases) { type in
+                                Label(type.rawValue.capitalized, systemImage: type.icon)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
                     }
                 }
             }

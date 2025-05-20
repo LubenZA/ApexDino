@@ -25,21 +25,40 @@ struct ApexDino: Decodable, Identifiable {
         let movie: String
         let sceneDescription: String
     }
+}
+
+enum ADType: String, Decodable, CaseIterable, Identifiable {
+    case all
+    case air
+    case land
+    case sea
     
-    enum ADType: String, Decodable {
-        case air
-        case land
-        case sea
-        
-        var background: Color {
-            switch self {
-                case .air:
-                    .teal
-                case .land:
-                    .brown
-                case .sea:
-                    .blue
-            }
+    var id: ADType {
+        self
+    }
+    
+    var background: Color {
+        switch self {
+        case .air:
+                .teal
+        case .land:
+                .brown
+        case .sea:
+                .blue
+        case .all:
+                .black
+        }
+    }
+    var icon: String {
+        switch self {
+        case .air:
+            "wind"
+        case .land:
+            "leaf.fill"
+        case .sea:
+            "drop.fill"
+        case .all:
+            "square.stack.3d.up.fill"
         }
     }
 }
