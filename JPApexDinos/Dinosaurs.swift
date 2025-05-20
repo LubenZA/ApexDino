@@ -8,6 +8,7 @@
 import Foundation
 
 class Dinosaurs {
+    var allApexDinos: [ApexDino] = []
     var apexDinos: [ApexDino] = []
     
     init() {
@@ -20,7 +21,8 @@ class Dinosaurs {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                apexDinos = try decoder.decode([ApexDino].self, from: data)
+                allApexDinos = try decoder.decode([ApexDino].self, from: data)
+                apexDinos = allApexDinos
             } catch {
                 print("Error reading json file: \(error)")
             }
@@ -51,9 +53,9 @@ class Dinosaurs {
     
     func filter(by type: ADType) {
         if type == .all {
-            
+            apexDinos = allApexDinos
         } else {
-            apexDinos = apexDinos.filter { dino in
+            apexDinos = allApexDinos.filter { dino in
                 dino.type == type
             }
         }
