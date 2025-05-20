@@ -26,4 +26,26 @@ class Dinosaurs {
             }
         }
     }
+    
+    func search(for searchText: String) -> [ApexDino] {
+        if searchText.isEmpty {
+            return apexDinos
+        } else {
+            return apexDinos.filter {
+                dino in
+                dino.name.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
+    func sort(by alphabetical: Bool) {
+        apexDinos.sort {
+            dino1, dino2 in
+            if alphabetical {
+                dino1.name < dino2.name
+            } else {
+                dino1.id < dino2.id
+            }
+        }
+    }
 }
