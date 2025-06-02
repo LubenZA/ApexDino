@@ -8,44 +8,42 @@
 import SwiftUI
 
 struct ContentView: View {
-    let dinos = Dinosaurs()
+    let dino = Dinosaurs()
     
     @State var searchText = ""
     @State var alphabetical = false
     @State var currentSelection = ADType.all
     
     var filteredDinos: [ApexDino] {
-        dinos.filter(by: currentSelection)
-        dinos.sort(by: alphabetical)
+        dino.filter(by: currentSelection)
+        dino.sort(by: alphabetical)
         
-        return dinos.search(for: searchText)
+        return dino.search(for: searchText)
     }
     
     var body: some View {
         NavigationStack {
-            List(filteredDinos) { dinos in
+            List(filteredDinos) { dino in
                 NavigationLink {
-                    Image(dinos.image)
-                        .resizable()
-                        .scaledToFit()
+                    DinoDetail(dino: dino)
                 } label: {
                     HStack {
-                        Image(dinos.image)
+                        Image(dino.image)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100, height: 100)
                             .shadow(color: .white, radius: 2)
                         
                         VStack(alignment: .leading) {
-                            Text(dinos.name)
+                            Text(dino.name)
                                 .fontWeight(.bold)
                             
-                            Text(dinos.type.rawValue.capitalized)
+                            Text(dino.type.rawValue.capitalized)
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                                 .padding(.horizontal, 13)
                                 .padding(.vertical, 5)
-                                .background(dinos.type.background)
+                                .background(dino.type.background)
                                 .clipShape(.capsule)
                         }
                         .padding(.leading, 5)
