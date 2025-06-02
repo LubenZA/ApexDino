@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
     let dino = Dinosaurs()
@@ -25,7 +26,11 @@ struct ContentView: View {
         NavigationStack {
             List(filteredDinos) { dino in
                 NavigationLink {
-                    DinoDetail(dino: dino)
+                    DinoDetail(dino: dino, position: .camera(
+                        MapCamera(
+                            centerCoordinate: dino.location,
+                            distance: 30000
+                        )))
                 } label: {
                     HStack {
                         Image(dino.image)

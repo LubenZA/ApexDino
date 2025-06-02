@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct DinoDetail: View {
     let dino: ApexDino
+    
+    @State var position: MapCameraPosition
     
     var body: some View {
         GeometryReader { geo in
@@ -37,11 +40,41 @@ struct DinoDetail: View {
                         .font(.largeTitle)
                     
                     //location
-
+                    NavigationLink {
+                        
+                    } label: {
+                        Map(position: $position) {
+                            Annotation(dino.name, coordinate: dino.location) {
+                                Image(systemName: "mappin.and.ellipse")
+                                    .font(.largeTitle)
+                                    .imageScale(.large)
+                                    .symbolEffect(.pulse)
+                            }
+                            .annotationTitles(.hidden)
+                        }
+                        .frame(height: 125)
+                        .clipShape(.rect(cornerRadius: 15))
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "greaterthan")
+                                .imageScale(.large)
+                                .font(.title3)
+                                .padding(.trailing, 10)
+                        }
+                        .overlay(alignment: .topLeading) {
+                            Text("Current Location")
+                                .padding([.leading, .bottom], 5)
+                                .padding(.trailing, 8)
+                                .background(.black.opacity(0.5))
+                                .clipShape(.rect(bottomTrailingRadius: 10))
+                        }
+                        .clipShape(.rect(bottomTrailingRadius: 10))
+                    }
+                    
                     
                     //appears in
                     Text("Appears In:")
                         .font(.title3)
+                        .padding(.top)
                     
                     ForEach(dino.movies, id: \.self) { movie in
                         Text("•" + movie)
@@ -78,10 +111,19 @@ struct DinoDetail: View {
             }
         }
         .ignoresSafeArea()
+        .toolbarBackground(.automatic)
     }
 }
 
 #Preview {
-    DinoDetail(dino: Dinosaurs().apexDinos[7])
+    let dino = Dinosaurs().apexDinos[7]
+    
+    NavigationStack {
+        DinoDetail(dino: dino, position: .camera(
+            MapCamera(
+                centerCoordinate: dino.location,
+                distance: 30000
+            )))
         .preferredColorScheme(.dark)
+    }
 }
