@@ -13,6 +13,8 @@ struct DinoDetail: View {
     
     @State var position: MapCameraPosition
     
+    @Namespace var ns
+    
     var body: some View {
         GeometryReader { geo in
             ScrollView {
@@ -41,7 +43,8 @@ struct DinoDetail: View {
                     
                     //location
                     NavigationLink {
-                        
+                        DinoMap(position: .camera(MapCamera(centerCoordinate: dino.location, distance: 1000, heading: 250, pitch: 80)))
+                            .navigationTransition(.zoom(sourceID: 1, in: ns))
                     } label: {
                         Map(position: $position) {
                             Annotation(dino.name, coordinate: dino.location) {
@@ -69,6 +72,7 @@ struct DinoDetail: View {
                         }
                         .clipShape(.rect(bottomTrailingRadius: 10))
                     }
+                    .matchedTransitionSource(id: 1, in: ns)
                     
                     
                     //appears in
